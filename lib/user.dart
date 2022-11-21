@@ -1,6 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:todo/detalied.dart';
+import 'package:todo/tasktyle.dart';
+import 'package:todo/tasks.dart';
 
 class Users extends StatefulWidget {
   Users({super.key});
@@ -10,8 +11,8 @@ class Users extends StatefulWidget {
 }
 
 class _UsersState extends State<Users> {
- 
   var users = [];
+  List<Task> tasks = [];
 
   var task = '';
   DateTime date = DateTime.now();
@@ -66,16 +67,12 @@ class _UsersState extends State<Users> {
               height: 10,
             ),
             Container(
-              // height: 30,
-              // width: 80,
               child: ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    users.add(task);
-                    task = '';
+                    tasks.add(Task(name: task, date: date));
                   });
                 },
-                // child: Icon(Icons.send_outlined),
                 child: Text("Add Task"),
               ),
             ),
@@ -87,39 +84,20 @@ class _UsersState extends State<Users> {
         Expanded(
           child: Container(
             child: ListView.builder(
-                itemCount: users.length,
+                itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final item = users[index];
-                  return Container(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    margin: EdgeInsets.only(bottom: 5),
-                    child: Column(
-                      children: [
-                        Card(
-                          color: Colors.white70,
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value: valuefirst,
-                                onChanged: (value) {
-                                  setState(() {
-                                    valuefirst = value!;
-                                  });
-                                },
-                              ),
-                              Text(
-                                item.toString(),
-                                style: TextStyle(),
-                              ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              Text(date.toString().substring(0, 11))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  final item = tasks[index];
+                  return Card(
+                    child: TaskTile(
+                        isChecked: tasks[index].isDone,
+                        taskTitle: tasks[index].name,
+                        checkboxChange: (a) {
+                          setState(() {
+                            tasks[index].doneChange();
+                          });
+                        },
+                        index: index,
+                        date: tasks[index].date),
                   );
                 }),
           ),
