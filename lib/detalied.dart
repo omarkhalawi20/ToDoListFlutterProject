@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/taskdata.dart';
 import 'package:todo/tasktyle.dart';
 import 'package:todo/tasks.dart';
 
@@ -14,7 +15,7 @@ class Detail extends StatefulWidget {
 }
 
 List<Task> tasks = [];
-String task = '';
+String task = ''; 
 DateTime date = DateTime.utc(1);
 
 class _MyWidgetState extends State<Detail> {
